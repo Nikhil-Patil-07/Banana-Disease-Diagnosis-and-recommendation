@@ -11,16 +11,18 @@ from langdetect import detect
 from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input as mobilenet_preprocess
 from vit_keras.layers import ClassToken, AddPositionEmbs, TransformerBlock
+from utils.model_downloader import download_all_models  # 👈 Your downloader
 
+# Step 1: Download all model and asset files from Google Drive
+download_all_models()
 
 # ================== 🔁 CACHING HEAVY LOADS ==================
 
 @st.cache_resource
 def load_all_models():
-    # CNN & ViT
-    cnn_model = load_model("D:/banana_disease_app/Main_py/banana_cnn_model.keras", compile=False)
+    cnn_model = load_model("Main_py/cnn_model.keras", compile=False)
     vit_model = load_model(
-        "D:/banana_disease_app/Main_py/banana_vit_model.keras",
+        "Main_py/banana_vit_model.keras",
         compile=False,
         custom_objects={
             'ClassToken': ClassToken,
@@ -28,28 +30,23 @@ def load_all_models():
             'TransformerBlock': TransformerBlock
         }
     )
-
-    # Extractors
     cnn_feat_ext = Model(inputs=cnn_model.input, outputs=cnn_model.get_layer(index=-4).output)
     vit_feat_ext = Model(inputs=vit_model.input, outputs=vit_model.get_layer(index=-4).output)
-
     return cnn_model, vit_model, cnn_feat_ext, vit_feat_ext
 
 @st.cache_resource
 def load_all_assets():
-    # Load ML models
-    scaler = joblib.load("D:/banana_disease_app/Main_py/feature_scaler.pkl")
-    mlp_model = joblib.load("D:/banana_disease_app/Main_py/lightgbm_model.pkl")
-    outlier_detector = joblib.load("D:/banana_disease_app/Main_py/isolation_forest.pkl")
+    scaler = joblib.load("Main_py/scaler.pkl")
+    mlp_model = joblib.load("Main_py/mlp_model.pkl")
+    outlier_detector = joblib.load("Main_py/outlier_detector.pkl")
 
-    # Label encoder
-    with open("D:/banana_disease_app/Main_py/label_encoder.pkl", "rb") as f:
+    with open("Main_py/label_encoder.pkl", "rb") as f:
         le = pickle.load(f)
 
-    # Knowledge bases
-    with open("D:/banana_disease_app/Main_py/banana_disease_knowledge_base_DL.json", "r", encoding="utf-8") as f:
+    with open("Main_py/kb_data_image.json", "r", encoding="utf-8") as f:
         kb_data_image = {entry["Disease"]: entry for entry in json.load(f)}
-    with open("D:/banana_disease_app/Main_py/banana_disease_knowledge_base.json", "r", encoding="utf-8") as f:
+
+    with open("Main_py/kb_data_text.json", "r", encoding="utf-8") as f:
         kb_data_text = json.load(f)
 
     return scaler, mlp_model, le, kb_data_image, kb_data_text, outlier_detector
@@ -59,7 +56,6 @@ def load_nlp_models():
     embedder = SentenceTransformer('sentence-transformers/paraphrase-xlm-r-multilingual-v1')
     cross_encoder = CrossEncoder('cross-encoder/mmarco-mMiniLMv2-L12-H384-v1')
     return embedder, cross_encoder
-
 
 # ================== 🧠 IMAGE PREDICTION ==================
 
@@ -123,7 +119,6 @@ def identify_disease_from_image(image_path):
         st.error(f"❌ Error: {e}")
         return {"error": str(e), "predicted_disease": None}
 
-
 # ================== 🧠 TEXT PREDICTION ==================
 
 def detect_language(query: str) -> str:
@@ -163,7 +158,6 @@ def predict_disease(query: str) -> Dict[str, Any]:
         "Management_Practices": entry[f"Management_{lang.upper()}" if lang != "en" else "Management_Practices"]
     }
 
-
 # ================== 🌿 STREAMLIT APP ==================
 
 st.set_page_config(page_title="Banana Disease Detection", layout="centered")
@@ -173,12 +167,10 @@ st.write("Detect diseases from either an image or a symptom query (Marathi, Hind
 
 option = st.radio("Choose method:", ("Image Only", "Text Only", "Both"))
 
-# Load everything once
 cnn_model, vit_model, cnn_feature_extractor, vit_feature_extractor = load_all_models()
 scaler, mlp_model, le, kb_data_image, kb_data_text, outlier_detector = load_all_assets()
 embedder, cross_encoder = load_nlp_models()
 
-# Image
 if option in ["Image Only", "Both"]:
     st.subheader("📷 Upload Image")
     uploaded_image = st.file_uploader("Choose a banana leaf image", type=["jpg", "jpeg", "png"])
@@ -189,7 +181,6 @@ if option in ["Image Only", "Both"]:
         identify_disease_from_image(temp_path)
         os.remove(temp_path)
 
-# Text
 if option in ["Text Only", "Both"]:
     st.subheader("📝 Enter Symptoms")
     symptoms = st.text_area("Describe symptoms (in Marathi, Hindi, or English):")
