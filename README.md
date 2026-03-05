@@ -1,4 +1,4 @@
-<img width="347" height="597" alt="image" src="https://github.com/user-attachments/assets/203fe4c2-fb63-4542-930c-0a76f0481d54" /># 🍌 AI-Based Crop Disease Diagnosis and Recommendation System
+# 🍌 AI-Based Crop Disease Diagnosis and Recommendation System
 ### Multilingual Support for Banana Farmers in Jalgaon District
 
 
@@ -159,4 +159,3 @@ The system is deployed as an interactive web application on **Hugging Face Space
 ## 📩Download the train and saved models from the hugging face from the Main_py folder
 
 ### 📝NOTE: -If it is sleeping just click on the "Restart the Space"
-### 
