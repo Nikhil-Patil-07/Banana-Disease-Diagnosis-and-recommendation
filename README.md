@@ -1,11 +1,6 @@
 # 🍌 AI-Based Crop Disease Diagnosis and Recommendation System
 ### Multilingual Support for Banana Farmers in Jalgaon District
 
-> M.Sc. Thesis Project — Symbiosis Institute of Geoinformatics, Symbiosis International (Deemed University)  
-> **Author:** Nikhil Anil Patil | Batch: 2024–2026 | PRN: 24070243038  
-> **Supervisor:** Dr. Vidya Patkar
-
----
 
 ## 📌 Overview
 
@@ -29,13 +24,31 @@ The system targets three major fungal diseases affecting banana crops in Jalgaon
 
 ---
 
+
+## 🗂️ Dataset
+
+**BananaLSD (Banana Leaf Spot Diseases Dataset)**  
+Collected at Bangabandhu Sheikh Mujibur Rahman Agricultural University, Bangladesh.
+
+| Class | Original Images | Augmented | Total |
+|---|---|---|---|
+| Healthy | 129 | 1,371 | 2,000 |
+| Sigatoka | 473 | 1,027 | 2,000 |
+| Cordana | 162 | 1,338 | 2,000 |
+| Pestalotiopsis | 173 | 1,327 | 2,000 |
+| **Total** | **937** | **5,063** | **6,000** |
+
+Images resized to **224×224 pixels**. Augmentations include rotation, flipping, cropping, brightness/contrast adjustment, gamma correction, and hue-saturation shifting.
+
+- 📦 Dataset: [BananaLSD on Kaggle / Data in Brief](https://doi.org/10.1016/j.dib.2023.109608)
+
+---
+
 ## 🏗️ System Architecture
 
-The system runs two parallel pipelines — a **Deep Learning** vision pipeline and an **NLP** query pipeline — both feeding into a shared knowledge base.
+The system has two parallel pipelines: 🔍 Vision Pipeline & 💬 NLP Pipeline
 
-<img width="665" height="739" alt="image" src="https://github.com/user-attachments/assets/3734c457-45a3-45ca-9485-8272970ee99d" />
-
-
+<img width="744" height="832" alt="image" src="https://github.com/user-attachments/assets/0aee6f82-c01f-41f5-98eb-185b5994c987" />
 
 ---
 
@@ -91,24 +104,6 @@ The system runs two parallel pipelines — a **Deep Learning** vision pipeline a
 | Sigatoka | 0.60 | 0.80 | 0.69 |
 | Unknown | 0.70 | 0.62 | 0.66 |
 
----
-
-## 🗂️ Dataset
-
-**BananaLSD (Banana Leaf Spot Diseases Dataset)**  
-Collected at Bangabandhu Sheikh Mujibur Rahman Agricultural University, Bangladesh.
-
-| Class | Original Images | Augmented | Total |
-|---|---|---|---|
-| Healthy | 129 | 1,371 | 2,000 |
-| Sigatoka | 473 | 1,027 | 2,000 |
-| Cordana | 162 | 1,338 | 2,000 |
-| Pestalotiopsis | 173 | 1,327 | 2,000 |
-| **Total** | **937** | **5,063** | **6,000** |
-
-Images resized to **224×224 pixels**. Augmentations include rotation, flipping, cropping, brightness/contrast adjustment, gamma correction, and hue-saturation shifting.
-
-- 📦 Dataset: [BananaLSD on Kaggle / Data in Brief](https://doi.org/10.1016/j.dib.2023.109608)
 
 ---
 
@@ -159,76 +154,7 @@ The system is deployed as an interactive web application on **Hugging Face Space
 - Text/query-only mode
 - Combined (both) mode
 
-🔗 **Live Demo:** [HuggingFace Space](#) *(add your Space URL here)*
+🔗 **Live Demo:** (https://huggingface.co/spaces/NikhilPatil/Banana_Disease_Preediction/tree/main)
 
----
+## 📝Download the train and saved models from the hugging face from the Main_py folder
 
-## 📁 Repository Structure
-
-```
-├── data/
-│   ├── raw/                    # Original dataset images
-│   └── augmented/              # Augmented training images
-├── models/
-│   ├── mobilenetv2/            # Saved CNN model weights
-│   └── nlp/                    # NLP pipeline configs
-├── knowledge_base/
-│   └── diseases.json           # Multilingual disease KB (En/Hi/Mr)
-├── src/
-│   ├── train_cnn.py            # CNN training script (Phase 1 & 2)
-│   ├── nlp_pipeline.py         # BM25 + Embeddings + Reranker
-│   ├── predict.py              # Inference script
-│   └── augment.py              # Albumentations augmentation
-├── app.py                      # Gradio app entry point
-├── requirements.txt
-└── README.md
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-```bash
-pip install tensorflow torch transformers sentence-transformers
-pip install ultralytics open-clip-torch rank_bm25 albumentations
-pip install gradio langdetect scikit-learn
-```
-
-### Running Locally
-```bash
-git clone https://github.com/your-username/banana-disease-ai.git
-cd banana-disease-ai
-pip install -r requirements.txt
-python app.py
-```
-
----
-
-## 📚 Citation
-
-If you use this work, please cite:
-
-```
-Patil, N. A. (2025). AI-Based Crop Disease Diagnosis and Recommendation System 
-with Multilingual Support for Farmers in Jalgaon District. M.Sc. Thesis, 
-Symbiosis Institute of Geoinformatics, Symbiosis International (Deemed University), Pune.
-```
-
----
-
-## 🙏 Acknowledgements
-
-Special thanks to **Dr. Vidya Patkar** for supervision and guidance, the faculty at **Symbiosis Institute of Geoinformatics**, and the creators of the **BananaLSD dataset** (Arman et al., 2023).
-
-Knowledge base content sourced from the **TNAU Agri Tech Portal**.
-
----
-
-## 📄 License
-
-This project is submitted as an academic thesis. Please contact the author before any commercial use.
-
----
-
-*Made with ❤️ for the farmers of Jalgaon, Maharashtra*
