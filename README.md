@@ -1,11 +1,6 @@
 # 🍌 AI-Based Crop Disease Diagnosis and Recommendation System
 ### Multilingual Support for Banana Farmers in Jalgaon District
 
-> M.Sc. Thesis Project — Symbiosis Institute of Geoinformatics, Symbiosis International (Deemed University)  
-> **Author:** Nikhil Anil Patil | Batch: 2024–2026 | PRN: 24070243038  
-> **Supervisor:** Dr. Vidya Patkar
-
----
 
 ## 📌 Overview
 
