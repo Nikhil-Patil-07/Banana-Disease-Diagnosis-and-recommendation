@@ -62,6 +62,22 @@ User Query (Mr / Hi / En)
 | Reranker | jinaai/jina-reranker-v2-base-multilingual | Fine-grained relevance scoring |
 | Outlier Detection | Isolation Forest | Reject out-of-scope queries |
 
+📊 Results
+Vision Model (MobileNetV2 + CLIP)
+MetricTrainingTestingAccuracy99.81%99.00%Macro Precision0.99810.9900Macro Recall0.99810.9900Macro F1-Score0.99810.9900
+Per-class Test F1-Scores:
+DiseasePrecisionRecallF1-ScoreCordana0.99330.99330.9933Healthy0.98680.99330.9900Pestalotiopsis0.99320.97670.9849Sigatoka0.98680.99670.9917
+NLP Pipeline
+MetricValueOverall Accuracy77.00%Macro F1-Score0.75Best Threshold0.10
+Per-class NLP F1-Scores:
+ClassPrecisionRecallF1-ScoreCordana0.890.840.86Healthy0.940.730.82Pestalotiopsis0.720.730.72Sigatoka0.600.800.69Unknown0.700.620.66
+
+🗂️ Dataset
+BananaLSD (Banana Leaf Spot Diseases Dataset)
+Collected at Bangabandhu Sheikh Mujibur Rahman Agricultural University, Bangladesh.
+ClassOriginal ImagesAugmentedTotalHealthy1291,3712,000Sigatoka4731,0272,000Cordana1621,3382,000Pestalotiopsis1731,3272,000Total9375,0636,000
+Images resized to 224×224 pixels. Augmentations include rotation, flipping, cropping, brightness/contrast adjustment, gamma correction, and hue-saturation shifting.
+
 - 📦 Dataset: [BananaLSD on Kaggle / Data in Brief](https://doi.org/10.1016/j.dib.2023.109608)
 
 ---
