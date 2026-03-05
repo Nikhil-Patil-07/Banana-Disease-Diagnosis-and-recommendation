@@ -47,7 +47,7 @@ Images resized to **224×224 pixels**. Augmentations include rotation, flipping,
 
 - 📦 Dataset: [BananaLSD on Kaggle / Data in Brief](https://doi.org/10.1016/j.dib.2023.109608)
 
-```
+---
 
 ## 🏗️ System Architecture
 
