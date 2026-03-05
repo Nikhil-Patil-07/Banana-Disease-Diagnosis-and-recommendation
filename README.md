@@ -33,7 +33,8 @@ The system targets three major fungal diseases affecting banana crops in Jalgaon
 
 The system runs two parallel pipelines — a **Deep Learning** vision pipeline and an **NLP** query pipeline — both feeding into a shared knowledge base.
 
-<img width="1074" height="1198" alt="image" src="https://github.com/user-attachments/assets/1c229381-a3ac-42b5-bd9d-9cb17e0f240c" />
+<img width="665" height="739" alt="image" src="https://github.com/user-attachments/assets/3734c457-45a3-45ca-9485-8272970ee99d" />
+
 
 
 ---
