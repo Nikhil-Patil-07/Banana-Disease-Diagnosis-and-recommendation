@@ -115,4 +115,4 @@ The system is deployed as an interactive web application on **Hugging Face Space
 
 🔗 **Live Demo:** (https://huggingface.co/spaces/NikhilPatil/Banana_Disease_Preediction/tree/main)
 
-#📝Download the train and saved models from the hugging face from the Main_py folder
+# 📝Download the train and saved models from the hugging face from the Main_py folder
