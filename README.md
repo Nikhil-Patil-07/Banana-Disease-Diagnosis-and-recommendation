@@ -33,64 +33,8 @@ The system targets three major fungal diseases affecting banana crops in Jalgaon
 
 The system runs two parallel pipelines — a **Deep Learning** vision pipeline and an **NLP** query pipeline — both feeding into a shared knowledge base.
 
-```
-┌─────────────────────────────────────────────────┐   ┌───────────────────────────────────────────────────────┐
-│                  DEEP LEARNING                  │   │                        NLP                            │
-│                                                 │   │                                                       │
-│  Image Input                User Input          │   │  User Input (Text Query)                              │
-│      │                          │               │   │       │                                               │
-│      ▼                          │               │   │       ▼                                               │
-│  Image Preprocessing            │               │   │  Language Detection (Mr / Hi / En)                    │
-│  • Resize 224×224               │               │   │       │                                               │
-│  • Normalize [0, 1]             │               │   │       ▼                                               │
-│      │                          │               │   │  intfloat/multilingual-e5-large          ┌──────────────┐
-│      ▼                          │               │   │  (Semantic Embedding with E5)             │Isolation     │
-│  Label Encoding                 ▼               │   │       │                                  │Forest        │
-│      │                  Training CNN with        │   │       │                                  │(Outlier      │
-│      ▼                  • Adam Optimizer         │   │       │                                  │Detection on  │
-│  Train / Test Split     • EarlyStopping    ◄────── CNN Model (MobileNetV2)                     │KB embeddings)│
-│  (80 / 20)              • ModelCheckpoint        │   │       │                                  └──────────────┘
-│      │                          │               │   │       ▼                    ▼                           │
-│      ▼                          ▼               │   │  BM25                Cross Encoder                    │
-│  ┌──────────────┐   ┌─────────────────────┐     │   │  (Keyword             jinaai/jina-reranker-           │
-│  │   PHASE I    │   │      PHASE II        │     │   │  Match Score)         v2-base-multilingual            │
-│  │ Freeze all   │   │ Unfreeze last 40     │     │   │  (Semantic Match Score)                               │
-│  │ base layers  │   │ layers to learn      │     │   │       │                    │                          │
-│  │ + add custom │   │ specific features    │     │   │       └────────┬───────────┘                          │
-│  │ head (4 cls) │   └─────────────────────┘     │   │                ▼                                       │
-│  └──────────────┘             │                 │   │  Fuse Scores (Weighted Combination)                    │
-│         │                     │                 │   │                │                                       │
-│         └──────────┬──────────┘                 │   │                ▼                                       │
-│                    ▼                             │   │  Threshold Sweep (Evaluate best threshold)            │
-│       Evaluate, Save & Load Model               │   │                │                                       │
-│                    │                             │   │         Is score >= threshold?                        │
-│         ┌──────────┴──────────┐                 │   │         Yes │           │ No                           │
-│         ▼                     ▼                 │   │             ▼           ▼                              │
-│      YOLOv8l               CLIP                 │   │   Knowledge Base    "Not Available                     │
-│  (ROI Detection)   (OpenAI CLIP ViT-B/32)       │   │   (Recommendations   in Our Database"                 │
-│         │                     │                 │   │    & Information)                                      │
-│         └──────────┬──────────┘                 │   │             │                                          │
-│                    ▼                             │   │             ▼                                          │
-│              CNN Model                          │   │    Extracting Recommendation                           │
-│                    │                             │   │    Based on Disease                                    │
-│                    ▼                             │   │             │                                          │
-│          Predict Outcome (Image)                │   └─────────────┼──────────────────────────────────────────┘
-│                    │                             │                 │
-│                    ▼                             │                 │
-│     Function to Extract Information             │                 │
-│                    │                             │                 │
-│          Is disease in database?                │                 │
-│          Yes │          │ No                    │                 │
-│              ▼          ▼                       │                 │
-│      Knowledge      "Not Available              │                 │
-│         Base         in Our Database"           │                 │
-└──────────────────────────────────────────────────┘                 │
-                       │                                             │
-                       └─────────────────┬───────────────────────────┘
-                                         ▼
-                                 Display Information
-                          (English / Hindi / Marathi)
-```
+<img width="1074" height="1198" alt="image" src="https://github.com/user-attachments/assets/1c229381-a3ac-42b5-bd9d-9cb17e0f240c" />
+
 
 ---
 
